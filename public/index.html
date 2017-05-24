@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="teachersConnection">
   <head>
     <meta charset="utf-8">
     <title>Teachers Connection</title>
@@ -10,7 +10,10 @@
     <!-- <link rel="stylesheet" href="./css/normalize.css"> -->
     <link rel="stylesheet" href="./css/style.css">
   </head>
-  <body>
+  <body ng-controller="mainController as ctrl">
     Li Ming Teachers Connection
+
+    {{2+2}}
+    {{ctrl.message}}
   </body>
 </html>

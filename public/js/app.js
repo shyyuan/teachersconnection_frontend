@@ -24,6 +24,9 @@ app.controller('mainController', ['$http', function($http){
     //console.log(this.loginEmail);
     $http({
       method: 'GET',
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+      },
       url: appURL+'teachers'
     }).then(function(response){
       //console.log('Get teachers from server: ', response.data);
@@ -52,6 +55,9 @@ app.controller('mainController', ['$http', function($http){
   this.getAllEvents = function(){
     $http({
       method: 'GET',
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+      },
       url: appURL+'events'
     }).then(function(response){
       console.log('All events: ', response.data);

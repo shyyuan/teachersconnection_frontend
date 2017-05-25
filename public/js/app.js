@@ -1,6 +1,7 @@
 console.log("Teacher Connection app.js works");
 
-var appURL = 'http://localhost:3000/';
+//var appURL = 'http://localhost:3000/';
+var appURL = 'https://teachersconnection-api.herokuapp.com/';
 
 var app = angular.module('teachersConnection', []);
 
@@ -56,7 +57,6 @@ app.controller('mainController', ['$http', function($http){
       console.log('All events: ', response.data);
       this.allEvents = response.data;
     }.bind(this));
-
   }
 
 

@@ -22,38 +22,37 @@
 
   <body ng-controller="mainController as ctrl">
 
-    <!-- ======= Header ======= -->
-    <header ng-include="'partials/header.html'"></header>
-
-    <!-- ======= Nav ======= -->
-    <nav ng-include="'partials/navigation.html'" ng-show="ctrl.loggedIn"></nav>
-
-
     <div class="major-container">
 
-    <!-- ======= Main ======= -->
-    <main>
+      <!-- ======= Main ======= -->
+      <main>
 
-      <!-- ======= Login ======= -->
-      <section ng-include="'partials/login.html'" ng-hide="ctrl.loggedIn"></section>
+        <div class="top-panel">
+          <!-- ======= Header ======= -->
+          <header ng-include="'partials/header.html'"></header>
 
-      <!-- ======= TOGGLE PARTIALS ======= -->
-      <section ng-include="'partials/events.html'" ng-show="ctrl.loggedIn && ctrl.tab === 1"></section>
-
-      <section ng-include="'partials/teachers.html'" ng-show="ctrl.loggedIn && ctrl.tab === 2"></section>
-
-    </main>
+          <!-- ======= Nav ======= -->
+          <nav ng-include="'partials/navigation.html'" ng-show="ctrl.loggedIn"></nav>
+        </div>
 
 
-    <aside class="left-aside">
-    </aside>
+        <!-- ======= Login ======= -->
+        <section ng-include="'partials/login.html'" ng-hide="ctrl.loggedIn"></section>
 
-    <aside class="right-aside">
-    </aside>
+        <!-- ======= TOGGLE PARTIALS ======= -->
+        <section ng-include="'partials/events.html'" ng-show="ctrl.loggedIn && ctrl.tab === 1"></section>
 
-    </div>
+        <section ng-include="'partials/teachers.html'" ng-show="ctrl.loggedIn && ctrl.tab === 2"></section>
+
+      </main>
+
+      <aside class="left-aside">
+      </aside>
+
+      <aside class="right-aside">
+      </aside>
 
     <!-- <footer ng-include="'partials/footer.html'"></footer> -->
-
+    </div>
   </body>
 </html>

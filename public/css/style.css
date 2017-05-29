@@ -1,8 +1,9 @@
-/* for development only - check layout */
-header, div, main, nav, aside, footer {
-  border: 1px solid red;
-}
+/* Final Project: Teachers Connection */
 
+/* for development only - check layout */
+/*header, div, main, nav, aside, footer {
+  border: 1px solid red;
+}*/
 
 * {
   margin: 0;
@@ -14,8 +15,15 @@ body {
   /*background: #041C5C;*/
   /*text-align: center;*/
   display: flex;
-  /*min-height: 100vh;*/
+  min-height: 100vh;
   flex-direction: column;
+}
+
+/* top-panel contains headers and nav */
+.top-panel {
+  height: 8em;
+  background: #041C5C;
+  border-bottom: 2px solid red;
 }
 
 /* **** Styleing for Header tag **** */
@@ -23,7 +31,7 @@ header {
   color: #EFAE28;
   padding-left: .5em;
   background: #041C5C;
-  border: 1px solid #041C5C;*/
+  border: 1px solid #041C5C;
 }
 
 header img {
@@ -52,12 +60,13 @@ header a {
 nav {
   /*border: 1px solid red;*/
   background: #041C5C;
+  border-bottom: 2px solid red;
 }
 
 .navigate {
   background: #041C5C;
   color: #EFAE28;
-  font-size: 1.8em;
+  font-size: 1.3em;
   padding-bottom: 0.3em;
 }
 
@@ -73,14 +82,16 @@ nav {
   padding: 0 1em;
 }
 
-/* **** Styleing for major-container section ****  */
+/* **** Styleing for major-container and sections ****  */
 .major-container {
   display: flex;
   flex:1
 }
 
 main {
-  flex: 1
+  flex: 1;
+  border-left: 2px solid red;
+  border-right: 2px solid red;
 }
 
 .left-aside {
@@ -90,6 +101,7 @@ main {
 .left-aside, .right-aside {
   flex: 0 0 8em;
   background-color: #041C5C;
+  /*border-top: 2px solid red;*/
 }
 
 
@@ -100,4 +112,30 @@ main {
 }
 .teacherDir h1 {
   text-align: center;
+}
+
+
+
+@media (min-width: 660px) {
+  .top-panel {
+    display:block;
+  }
+
+  header img {
+    width: auto;
+    /*display: block;*/
+  }
+
+  header h1 {
+    /*font-size: 1em;
+    padding-left: 1em;*/
+  }
+
+  .major-container {
+    flex-direction: row;
+    flex: 1;
+  }
+  aside {
+    flex: 0 0 8em;
+  }
 }

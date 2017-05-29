@@ -4,19 +4,31 @@
 
     <!-- Left side div show all Teachers-->
     <div class="col-sm-7">
+      <p>Sort By: <span ng-if="ctrl.teacherSortByName"><b>Name</b> <a href="#" ng-click="ctrl.sortTeacherByEamil()">Email</a></span>
+        <span ng-if="ctrl.teacherSortByEmail"><a href="#" ng-click="ctrl.sortTeacherByName()">Name</a> <b>Email</b></span>
+      </p>
+
       <!--  Repeat show all Posts div -->
       <div ng-repeat="teacher in ctrl.allTeachers">
-        <p><b>{{teacher.name}}</b> - {{teacher.email}}
-        <button ng-click="ctrl.editTeacher($index)">Edit</button></p>
+        <p><b>{{teacher.name}}</b> - <a href="mailto:{{teacher.email}}">{{teacher.email}}</a>
+        <button ng-click="ctrl.editTeacher($index)">Edit</button>
+        <button ng-click="ctrl.deleteTeacher($index)" ng-show="ctrl.admin">Delete</button>
+        </p>
       </div>
     </div>
 
     <!-- Right side div show create new post form -->
     <div class="col-sm-4">
-      <form>
-        <input ng-model="ctrl.teacherFormData.name" type="text" placeholder="Name" value="ctrl.teacherFormData.name">
-        <input ng-model="ctrl.teacherFormData.email" type="text" placeholder="Email" value="ctrl.teacherFormData.email">
-        <br/>
+      <form class="form-horizontal" >
+
+        <div class="form-group">
+          <label for="name">Name: </label>
+          <input name="name" ng-model="ctrl.teacherFormData.name" type="text" value="ctrl.teacherFormData.name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email: </label>
+          <input name="email" ng-model="ctrl.teacherFormData.email" type="text" value="ctrl.teacherFormData.email">
+        </div>
         <button ng-click="ctrl.createTeacher()" ng-hide="ctrl.editTeacherMode">New Teacher</button>
         <button ng-click="ctrl.updateTeacher(ctrl.teacherInd)" ng-show="ctrl.editTeacherMode">Update</button>
         <button ng-click="ctrl.cancelEditTeacher()" ng-show="ctrl.editTeacherMode">Cancel</button>

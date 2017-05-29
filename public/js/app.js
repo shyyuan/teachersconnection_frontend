@@ -6,13 +6,13 @@ const appURL = 'https://teachersconnection-api.herokuapp.com/';
 const loggedIn = false;
 const showInvalidLogin = false;
 const loginEmail = ''
-// const editTeacherMode = false;
+const admin = false;
 
 // ====== main controller ============= //
 app.controller('mainController', ['$http', function($http){
   //this.message = "Controller works";
   //this.loginEmail = 'shyyuan@yahoo.com'; // for local testing
-  this.tab = 1;
+  //this.tab = 1;
   //this.editTeacherMode = false;
   // Arrays and Objects for the site
   this.activeTeacher = {};
@@ -21,6 +21,8 @@ app.controller('mainController', ['$http', function($http){
   this.editTeacherMode = false;
   this.teacherFormData = {};
   this.teacherInd = -1;
+  this.teacherSortByName = false;
+  this.teacherSortByEmail = false;
 
   // ============
   // Email check and get allTeachers and allEvents
@@ -42,9 +44,18 @@ app.controller('mainController', ['$http', function($http){
         }
       }
       if (this.loggedIn){
+        if (this.activeTeacher.id === 1) {
+          this.admin = true;
+        } else {
+          this.admin = false;
+        }
         this.allTeachers = response.data;
+        //this.allTeachers = this.allTeachers.sort((a, b) => a.name.localeCompare(b.name));
+        //this.teacherSortByName = true;
+        this.sortTeacherByName();
         console.log('All teachers: ', this.allTeachers);
         this.getAllEvents();
+        this.tab = 1;
       }
     });
 
@@ -98,7 +109,7 @@ app.controller('mainController', ['$http', function($http){
   };
 
   // ============
-  // Create/Update Teacher
+  // Create/Update/Delete Teacher
   // ============
   // create new teacher
   this.createTeacher = function(){
@@ -110,6 +121,7 @@ app.controller('mainController', ['$http', function($http){
     }).then(function(result){
       console.log('Data from server: ', result.data);
       this.allTeachers.push(result.data);
+      this.sortAllTeachers();
       this.teacherFormData = {};
     }.bind(this));
   };
@@ -133,6 +145,7 @@ app.controller('mainController', ['$http', function($http){
     }).then(function(result){
       console.log('Teacher updated from server: ', result.data);
       this.allTeachers.splice(ind, 1, result.data);
+      this.sortAllTeachers();
       this.cancelEditTeacher();
     }.bind(this));
   }
@@ -143,7 +156,39 @@ app.controller('mainController', ['$http', function($http){
     this.teacherInd = -1;
     this.teacherFormData = {};
   };
+  // Delete teacher
+  this.deleteTeacher = function(ind){
+    var tempId = this.allTeachers[ind].id;
+    $http.delete(appURL+'teachers/'+tempId).then(response => {
+      this.allTeachers.splice(ind, 1);
+      console.log('Delete teacher: ', response);
+    });
+  };
 
+  // ===========
+  // Teacher Sort Function
+  // ===========
+  this.sortTeacherByName = function(){
+    this.teacherSortByName = true;
+    this.teacherSortByEmail = false;
+    this.allTeachers =  this.allTeachers.sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
+    return this.allTeachers;
+  };
+
+  this.sortTeacherByEamil = function(){
+    this.teacherSortByName = false;
+    this.teacherSortByEmail = true;
+    this.allTeachers = this.allTeachers.sort((a, b) => a.email.toUpperCase().localeCompare(b.email.toUpperCase()));
+    return this.allTeachers;
+  };
+
+  this.sortAllTeachers = function(){
+    if (this.teacherSortByName) {
+      this.sortTeacherByName();
+    } else if (this.teacherSortByEmail) {
+      this.sortTeacherByEamil();
+    }
+  };
 
   // ===========
   // Logout
@@ -153,6 +198,7 @@ app.controller('mainController', ['$http', function($http){
     this.showInvalidLogin = false;
     this.loginEmail = ''
   }
+
   // for local testing
   //this.validateEmail();
 }]);

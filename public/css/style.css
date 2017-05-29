@@ -1,3 +1,9 @@
+/* for development only - check layout */
+header, div, main, nav, aside, footer {
+  border: 1px solid red;
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -7,9 +13,12 @@
 body {
   /*background: #041C5C;*/
   /*text-align: center;*/
+  display: flex;
+  /*min-height: 100vh;*/
+  flex-direction: column;
 }
 
-/* Styleing for Header tag */
+/* **** Styleing for Header tag **** */
 header {
   color: #EFAE28;
   padding-left: .5em;
@@ -20,23 +29,26 @@ header {
 header img {
   float: left;
 }
+
 header h1 {
   font-size: 2.5em;
-  /*padding-top: .3em;*/
-  padding-left: 8em;
+  padding-left: 9em;
 }
 
-/* Styleing for Login section  */
+header a {
+  cursor: pointer;
+}
+
+/* **** Styleing for Login section ****  */
 .login {
   color: #EFAE28;
   text-align: center;
   font-size: 1.8em;
   padding-top: 1em;
   background: #041C5C;
-
 }
 
-/* Styleing for Navigation section  */
+/* **** Styleing for Navigation section ****  */
 nav {
   /*border: 1px solid red;*/
   background: #041C5C;
@@ -61,8 +73,31 @@ nav {
   padding: 0 1em;
 }
 
+/* **** Styleing for major-container section ****  */
+.major-container {
+  display: flex;
+  flex:1
+}
 
 main {
-  /*background: white;*/
-  /*color: #EFAE28;*/
+  flex: 1
+}
+
+.left-aside {
+  order: -1;
+}
+
+.left-aside, .right-aside {
+  flex: 0 0 8em;
+  background-color: #041C5C;
+}
+
+
+
+/* **** Styleing for Teachers section ****  */
+.teacherDir {
+  width: 100%
+}
+.teacherDir h1 {
+  text-align: center;
 }

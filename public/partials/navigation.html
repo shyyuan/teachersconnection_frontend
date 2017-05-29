@@ -2,12 +2,11 @@
 
 <ul>
 
-  <li ng-class="{ tab: main.tab == 1 }" ng-click="main.tab = 1">Events</li>
+  <li ng-class="{ tab: ctrl.tab == 1 }" ng-click="ctrl.tab = 1">Events</li>
 
-  <li ng-class="{ tab: main.tab == 2 }" ng-click="main.tab = 2">Teachers</li>
+  <li ng-class="{ tab: ctrl.tab == 2 }" ng-click="ctrl.tab = 2">Teachers</li>
 
   <li ng-click="ctrl.logout()">Logout</li>
 
 </ul>
 </div>
-<!-- class="navlink"  -->

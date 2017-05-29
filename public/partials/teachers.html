@@ -1,0 +1,28 @@
+<div class="container teacherDir">
+  <h1>Teachers Directory</h1>
+  <div class="row">
+
+    <!-- Left side div show all Teachers-->
+    <div class="col-sm-7">
+      <!--  Repeat show all Posts div -->
+      <div ng-repeat="teacher in ctrl.allTeachers">
+        <p><b>{{teacher.name}}</b> - {{teacher.email}}
+        <button ng-click="ctrl.editTeacher($index)">Edit</button></p>
+      </div>
+    </div>
+
+    <!-- Right side div show create new post form -->
+    <div class="col-sm-4">
+      <form>
+        <input ng-model="ctrl.teacherFormData.name" type="text" placeholder="Name" value="ctrl.teacherFormData.name">
+        <input ng-model="ctrl.teacherFormData.email" type="text" placeholder="Email" value="ctrl.teacherFormData.email">
+        <br/>
+        <button ng-click="ctrl.createTeacher()" ng-hide="ctrl.editTeacherMode">New Teacher</button>
+        <button ng-click="ctrl.updateTeacher(ctrl.teacherInd)" ng-show="ctrl.editTeacherMode">Update</button>
+        <button ng-click="ctrl.cancelEditTeacher()" ng-show="ctrl.editTeacherMode">Cancel</button>
+      </form>
+    </div>
+
+  </div>
+
+</div>

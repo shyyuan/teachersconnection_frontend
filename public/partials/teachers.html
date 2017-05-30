@@ -17,7 +17,7 @@
 
         <!-- only admin person can delete a teacher -->
         <button ng-click="ctrl.deleteTeacher($index)" ng-show="ctrl.admin" class="btn btn-primary btn-xs"> Delete </button>
-        <button ng-click="ctrl.editTeacher($index)" ng-show="ctrl.admin" class="btn btn-primary btn-xs"> Edit </button>
+        <button ng-click="ctrl.editTeacher($index)" ng-show="ctrl.admin || teacher.id == ctrl.activeTeacher.id " class="btn btn-primary btn-xs"> Edit </button>
         </p>
       </div>
     </div>

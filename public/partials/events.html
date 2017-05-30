@@ -1,7 +1,82 @@
-<div class="" ng-repeat="event in ctrl.allEvents">
-  <h3>{{event.title}}</h3>
-  <p>{{event.description}}</p>
-  <p>Convener: {{event.convener}}</p>
-  <p>Start: {{event.start_datetime}}</p>
-  <p>End: {{event.end_datetime}}</p>
+<div class="container events">
+  <br/><br/>
+  <h1>Upcomming Events</h1>
+  <br/><br/>
+
+  <div class="row">
+
+    <!-- Left side div show all Existing Events -->
+    <div class="col-sm-7">
+
+      <!-- Repeating event div -->
+      <div class="oneEvent" ng-repeat="event in ctrl.allEvents" ng-hide="ctrl.viewEventMode">
+        <h4 ng-click="ctrl.viewEventDetail($index)">{{event.start_datetime | date:'yyyy-MM-dd hh:mma'}} -  {{event.title}}</h4>
+        <p>Convener: {{event.convener}}</p>
+      </div>
+
+      <!-- view one event detail -->
+      <div ng-show="ctrl.viewEventMode">
+        <div class="oneEvent">
+          <h3>Detail</h3>
+          <h4>{{ctrl.currentEvent.title}}</h4>
+          <p>{{ctrl.currentEvent.description}}</p>
+          <p>Location: {{ctrl.currentEvent.location}}</p>
+          <p>Start: {{ctrl.currentEvent.start_datetime | date:'yyyy-MM-dd hh:mma'}}</p>
+          <p>End: {{ctrl.currentEvent.end_datetime | date:'yyyy-MM-dd hh:mma'}}</p>
+
+          <button ng-click="ctrl.editEbvent()" >Edit</button>
+          <button ng-click="ctrl.deleteEvent()">Delete</button> <span style="color:red">Will delete all dialogues too</span>
+          <br/><br/>
+        </div>
+
+        <div ng-repeat="dia in ctrl.dialogues">
+          <p><b>{{dia.teacherName}}: </b> {{dia.content}}</p>
+        </div>
+
+        <div class="">
+          
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right side Event form div  -->
+    <div class="col-sm-4">
+      <form class="form-horizontal form-div" >
+
+        <div class="form-group">
+          <label for="title">Title: </label><br/>
+          <input name="title" required="required" ng-model="ctrl.eventFormData.title" type="text" value="ctrl.eventFormData.title">
+        </div>
+        <div  class="form-group">
+          <label for="convener">Convener: </label><br/>
+          <input name="convener" required="required" ng-model="ctrl.eventFormData.convener" type="text" value="ctrl.eventFormData.convener">
+        </div>
+        <div  class="form-group">
+          <label for="location">Location: </label><br/>
+          <input name="location" ng-model="ctrl.eventFormData.location" type="text" value="ctrl.eventFormData.location">
+        </div>
+        <div class="form-group">
+          <label for="description">Description: </label><br/>
+          <textarea rows="3" name="description" required="required"  ng-model="ctrl.eventFormData.description">{{ctrl.eventFormData.description}}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="start">From: </label><br/>
+          <input type="datetime-local" name="start" required="required" ng-model="ctrl.eventFormData.start_datetime">
+        </div>
+        <div class="form-group">
+          <label for="end">To: </label><br/>
+          <input type="datetime-local" name="end" ng-model="ctrl.eventFormData.end_datetime">
+        </div>
+
+        <div>
+        <button ng-click="ctrl.createEvent()"  ng-hide="ctrl.editEventMode">New Event</button>
+        <!-- <button ng-click="ctrl.updateTeacher(ctrl.teacherInd)" ng-show="ctrl.editTeacherMode">Update</button>
+        <button ng-click="ctrl.cancelEditTeacher()" ng-show="ctrl.editTeacherMode">Cancel</button> -->
+        </div>
+      </form>
+
+
+    </div>
+  </div>
 </div>

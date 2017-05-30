@@ -7,14 +7,15 @@ const loggedIn = false;
 //const showMessage = false;
 const loginEmail = ''
 const admin = false;
-const timeOut = 1;
+const timeOut = 5;
+//const dateFormat = 'yyyy-MM-dd hh:mma';
+//const timeFormat = 'hh:mm a';
 
 // ====== main controller ============= //
 app.controller('mainController', ['$http', function($http){
   this.invalidMessage = "";
-  //this.loginEmail = 'shyyuan@yahoo.com'; // for local testing
-  //this.tab = 1;
-  //this.editTeacherMode = false;
+  this.loginEmail = 'shyyuan@yahoo.com'; // for local testing
+
   // Arrays and Objects for the site
   this.activeTeacher = {};
   this.allTeachers = [];
@@ -24,6 +25,12 @@ app.controller('mainController', ['$http', function($http){
   this.teacherInd = -1;
   this.teacherSortByName = false;
   this.teacherSortByEmail = false;
+  this.editEventMode = false;
+  this.viewEventMode = false;
+  this.eventFormData = {};
+  this.eventInd = -1;
+  this.currentEvent = {};
+  this.dialogues = [];
 
   // ============
   // Email check and get allTeachers and allEvents
@@ -97,6 +104,9 @@ app.controller('mainController', ['$http', function($http){
   this.getAllEvents = function(){
     $http.get(appURL+'events').then(response => {
       this.allEvents = response.data;
+      // for (var i=0; i<this.allEvents.length; i++){
+      //   this.allEvents[i].displayStart = this.allEvents[i].start_datetime | date: dateFormat }
+      // }
       console.log('All events: ', this.allEvents);
     });
     // $http({
@@ -120,18 +130,15 @@ app.controller('mainController', ['$http', function($http){
     if (this.timeOut()){
       this.logout();
       this.timeOutMessage();
-      //this.showMessage = true;
-      //this.invalidMessage = "Session Timeout";
     } else {
       this.activeTeacher.lastActiveTime = Date.now();
-      //this.tab = 2;
       console.log("inside create new teacher: ", this.teacherFormData);
       $http({
         method: 'POST',
         url : appURL+'teachers',
         data: this.teacherFormData
       }).then(function(result){
-        console.log('Data from server: ', result.data);
+        //console.log('Data from server: ', result.data);
         this.allTeachers.push(result.data);
         this.sortAllTeachers();
         this.teacherFormData = {};
@@ -269,9 +276,12 @@ app.controller('mainController', ['$http', function($http){
     } else {
       this.activeTeacher.lastActiveTime = Date.now();
       this.tab = tab;
+      this.viewEventMode = false;
+      this.editTeacherMode = false;
+      this.teacherFormData = {};
     }
   };
-
+  // the timeOut function
   this.timeOut = function(){
     var diff = (Date.now() - this.activeTeacher.lastActiveTime)/60000;
     console.log('Time diff: ', diff);
@@ -281,7 +291,7 @@ app.controller('mainController', ['$http', function($http){
       return false;
     }
   };
-
+  // set time out message
   this.timeOutMessage = function(){
     this.showMessage = true;
     this.invalidMessage = "Session Timeout";
@@ -296,6 +306,55 @@ app.controller('mainController', ['$http', function($http){
     this.loginEmail = ''
   }
 
+  // ============
+  // Create/Update/Delete Events
+  // ============
+  // create new event
+  this.createEvent = function(){
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      console.log("inside create new event: ", this.eventFormData);
+      $http({
+        method: 'POST',
+        url : appURL+'events',
+        data: this.eventFormData
+      }).then(function(result){
+        console.log('Event data from server: ', result.data);
+        this.getAllEvents();
+        this.eventFormData = {};
+      }.bind(this));
+    }
+  };
+
+  // view one event detail and its dialogues
+  this.viewEventDetail = function(ind){
+    this.currentEvent = this.allEvents[ind];
+    this.viewEventMode = true;
+    //console.log('View event ',this.currentEvent);
+    $http.get(appURL+'events/'+this.currentEvent.id).then(response => {
+      //console.log('View event and dialogues: ', response.data.dialogues);
+      this.dialogues = response.data.dialogues;
+      for (var i=0; i<this.dialogues.length; i++){
+        for(var j=0; j<this.allTeachers.length; j++){
+          if (this.dialogues[i].teacher_id === this.allTeachers[j].id) {
+            this.dialogues[i].teacherName =  this.allTeachers[j].name;
+            break;
+          }
+        }
+      }
+      //console.log('Modified dialogues array: ', this.dialogues);
+    });
+  };
+
+
+
+
+
+
+
   // for local testing
-  //this.validateEmail();
+  this.validateEmail();
 }]);

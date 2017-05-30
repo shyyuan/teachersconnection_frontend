@@ -104,15 +104,45 @@ main {
   /*border-top: 2px solid red;*/
 }
 
-
-
-/* **** Styleing for Teachers section ****  */
-.teacherDir {
+/* **** Styleing for Teachers/Events section ****  */
+.teacherDir, .events {
   width: 100%
 }
 .teacherDir h1 {
   text-align: center;
 }
+.events h1 {
+  text-align: center;
+}
+.oneEvent, .oneTeacher {
+  width: 90%;
+  background: #a9b7d9;
+  margin: .2em;
+  padding: 10px 1em 3px 1em;
+  color: black;
+}
+
+.oneTeacher button {
+  float: right;
+}
+.oneEvent h4:hover {
+  cursor: pointer;
+  font-style: italic;
+  font-weight: bold;
+}
+
+
+.form-div {
+  margin-left: 1em;
+  /*background: #EFAE28;*/
+  /*border-radius: 10px;*/
+  padding: 1em;
+  font-size: 1.1em;
+  /*width: 300px;*/
+}
+
+
+
 
 
 
@@ -122,6 +152,7 @@ main {
   }
 
   header img {
+    clear: left;
     width: auto;
     /*display: block;*/
   }
@@ -136,6 +167,7 @@ main {
     flex: 1;
   }
   aside {
-    flex: 0 0 8em;
+    flex: 0 0 4em;
   }
+
 }

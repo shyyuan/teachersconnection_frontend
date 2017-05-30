@@ -1,37 +1,47 @@
 <div class="container teacherDir">
+  <!-- <br/><br/>
   <h1>Teachers Directory</h1>
+  <br/><br/> -->
   <div class="row">
 
     <!-- Left side div show all Teachers-->
     <div class="col-sm-7">
+      <br/><br/>
+      <h1>Teachers Directory</h1>
+      <!-- Sort Function -->
       <p>Sort By: <span ng-if="ctrl.teacherSortByName"><b>Name</b> <a href="#" ng-click="ctrl.sortTeacherByEamil()">Email</a></span>
         <span ng-if="ctrl.teacherSortByEmail"><a href="#" ng-click="ctrl.sortTeacherByName()">Name</a> <b>Email</b></span>
       </p>
 
-      <!--  Repeat show all Posts div -->
-      <div ng-repeat="teacher in ctrl.allTeachers">
+      <!--  Repeat show all Teachers div -->
+      <div ng-repeat="teacher in ctrl.allTeachers" class="oneTeacher">
         <p><b>{{teacher.name}}</b> - <a href="mailto:{{teacher.email}}">{{teacher.email}}</a>
-        <button ng-click="ctrl.editTeacher($index)">Edit</button>
+
+        <!-- only admin person can delete a teacher -->
         <button ng-click="ctrl.deleteTeacher($index)" ng-show="ctrl.admin">Delete</button>
+        <button ng-click="ctrl.editTeacher($index)">Edit</button>
         </p>
       </div>
     </div>
 
-    <!-- Right side div show create new post form -->
-    <div class="col-sm-4">
+    <!-- Right side div create/edit teacher form -->
+    <div class="col-sm-4 form-div">
+      <br/>
+      <h3>New Teacher</h3>
+      <br/>
       <form class="form-horizontal" >
 
         <div class="form-group">
           <label for="name">Name: </label>
-          <input name="name" ng-model="ctrl.teacherFormData.name" type="text" value="ctrl.teacherFormData.name">
+          <input name="name" required="required" ng-model="ctrl.teacherFormData.name" type="text" value="ctrl.teacherFormData.name">
         </div>
         <div class="form-group">
           <label for="email">Email: </label>
-          <input name="email" ng-model="ctrl.teacherFormData.email" type="text" value="ctrl.teacherFormData.email">
+          <input name="email" required="required" ng-model="ctrl.teacherFormData.email" type="text" value="ctrl.teacherFormData.email">
         </div>
-        <button ng-click="ctrl.createTeacher()" ng-hide="ctrl.editTeacherMode">New Teacher</button>
+        <button ng-click="ctrl.createTeacher()" ng-hide="ctrl.editTeacherMode">Add</button>
         <button ng-click="ctrl.updateTeacher(ctrl.teacherInd)" ng-show="ctrl.editTeacherMode">Update</button>
-        <button ng-click="ctrl.cancelEditTeacher()" ng-show="ctrl.editTeacherMode">Cancel</button>
+        <!-- <button ng-click="ctrl.cancelEditTeacher()" ng-show="ctrl.editTeacherMode">Cancel</button> -->
       </form>
     </div>
 

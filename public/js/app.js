@@ -1,20 +1,18 @@
 console.log("Teacher Connection app.js works");
 
+
 const app = angular.module('teachersConnection', []);
-const appURL = 'http://localhost:3000/';
-//const appURL = 'https://teachersconnection-api.herokuapp.com/';
+//const appURL = 'http://localhost:3000/';
+const appURL = 'https://teachersconnection-api.herokuapp.com/';
 const loggedIn = false;
-//const showMessage = false;
 const loginEmail = ''
 const admin = false;
 const timeOut = 5;
-//const dateFormat = 'yyyy-MM-dd hh:mma';
-//const timeFormat = 'hh:mm a';
 
 // ====== main controller ============= //
 app.controller('mainController', ['$http', function($http){
   this.invalidMessage = "";
-  this.loginEmail = 'shyyuan@yahoo.com'; // for local testing
+  //this.loginEmail = 'shyyuan@yahoo.com'; // for local testing
 
   // Arrays and Objects for the site
   this.activeTeacher = {};
@@ -31,6 +29,7 @@ app.controller('mainController', ['$http', function($http){
   this.eventInd = -1;
   this.currentEvent = {};
   this.dialogues = [];
+  this.dialogueForm = {};
 
   // ============
   // Email check and get allTeachers and allEvents
@@ -61,8 +60,6 @@ app.controller('mainController', ['$http', function($http){
           this.admin = false;
         }
         this.allTeachers = response.data;
-        //this.allTeachers = this.allTeachers.sort((a, b) => a.name.localeCompare(b.name));
-        //this.teacherSortByName = true;
         this.sortTeacherByName();
         console.log('All teachers: ', this.allTeachers);
         this.getAllEvents();
@@ -104,9 +101,6 @@ app.controller('mainController', ['$http', function($http){
   this.getAllEvents = function(){
     $http.get(appURL+'events').then(response => {
       this.allEvents = response.data;
-      // for (var i=0; i<this.allEvents.length; i++){
-      //   this.allEvents[i].displayStart = this.allEvents[i].start_datetime | date: dateFormat }
-      // }
       console.log('All events: ', this.allEvents);
     });
     // $http({
@@ -151,11 +145,8 @@ app.controller('mainController', ['$http', function($http){
     if (this.timeOut()){
       this.logout();
       this.timeOutMessage();
-      //this.showMessage = true;
-      //this.invalidMessage = "Session Timeout";
     } else {
       this.activeTeacher.lastActiveTime = Date.now();
-      //this.tab = 2;
       this.editTeacherMode = true;
       this.teacherFormData.name = this.allTeachers[ind].name;
       this.teacherFormData.email = this.allTeachers[ind].email;
@@ -168,11 +159,8 @@ app.controller('mainController', ['$http', function($http){
     if (this.timeOut()){
       this.logout();
       this.timeOutMessage();
-      //this.showMessage = true;
-      //this.invalidMessage = "Session Timeout";
     } else {
       this.activeTeacher.lastActiveTime = Date.now();
-      //this.tab = 2;
       var tempId = this.allTeachers[ind].id;
       console.log("inside Update teacher: ", this.teacherFormData);
       $http({
@@ -190,29 +178,16 @@ app.controller('mainController', ['$http', function($http){
 
   // cancel edit teacher mode
   this.cancelEditTeacher = function(){
-    if (this.timeOut()){
-      this.logout();
-      this.timeOutMessage();
-      //this.showMessage = true;
-      //this.invalidMessage = "Session Timeout";
-    } else {
-      this.activeTeacher.lastActiveTime = Date.now();
-      //this.tab = 2;
-      this.editTeacherMode = false;
-      this.teacherInd = -1;
-      this.teacherFormData = {};
-    }
+    this.checkTimeOut(2);
   };
+
   // Delete teacher
   this.deleteTeacher = function(ind){
     if (this.timeOut()){
       this.logout();
       this.timeOutMessage();
-      //this.showMessage = true;
-      //this.invalidMessage = "Session Timeout";
     } else {
       this.activeTeacher.lastActiveTime = Date.now();
-      //this.tab = 2;
       var tempId = this.allTeachers[ind].id;
       $http.delete(appURL+'teachers/'+tempId).then(response => {
         this.allTeachers.splice(ind, 1);
@@ -228,11 +203,8 @@ app.controller('mainController', ['$http', function($http){
     if (this.timeOut()){
       this.logout();
       this.timeOutMessage();
-      //this.showMessage = true;
-      //this.invalidMessage = "Session Timeout";
     } else {
       this.activeTeacher.lastActiveTime = Date.now();
-      //this.tab = 2;
       this.teacherSortByName = true;
       this.teacherSortByEmail = false;
       this.allTeachers =  this.allTeachers.sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
@@ -244,11 +216,8 @@ app.controller('mainController', ['$http', function($http){
     if (this.timeOut()){
       this.logout();
       this.timeOutMessage();
-      //this.showMessage = true;
-      //this.invalidMessage = "Session Timeout";
     } else {
       this.activeTeacher.lastActiveTime = Date.now();
-      //this.tab = 2;
       this.teacherSortByName = false;
       this.teacherSortByEmail = true;
       this.allTeachers = this.allTeachers.sort((a, b) => a.email.toUpperCase().localeCompare(b.email.toUpperCase()));
@@ -271,14 +240,16 @@ app.controller('mainController', ['$http', function($http){
     if (this.timeOut()) {
       this.logout();
       this.timeOutMessage();
-      // this.showMessage = true;
-      // this.invalidMessage = "Session Timeout";
     } else {
       this.activeTeacher.lastActiveTime = Date.now();
       this.tab = tab;
       this.viewEventMode = false;
       this.editTeacherMode = false;
       this.teacherFormData = {};
+      this.eventFormData = {};
+      if (tab === 1){
+        this.getAllEvents();
+      }
     }
   };
   // the timeOut function
@@ -307,7 +278,7 @@ app.controller('mainController', ['$http', function($http){
   }
 
   // ============
-  // Create/Update/Delete Events
+  // Create/Update/Delete Events and its Dialogues
   // ============
   // create new event
   this.createEvent = function(){
@@ -322,7 +293,7 @@ app.controller('mainController', ['$http', function($http){
         url : appURL+'events',
         data: this.eventFormData
       }).then(function(result){
-        console.log('Event data from server: ', result.data);
+        console.log('New Event data from server: ', result.data);
         this.getAllEvents();
         this.eventFormData = {};
       }.bind(this));
@@ -331,10 +302,58 @@ app.controller('mainController', ['$http', function($http){
 
   // view one event detail and its dialogues
   this.viewEventDetail = function(ind){
-    this.currentEvent = this.allEvents[ind];
-    this.viewEventMode = true;
-    //console.log('View event ',this.currentEvent);
-    $http.get(appURL+'events/'+this.currentEvent.id).then(response => {
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+    } else {
+      this.currentEvent = this.allEvents[ind];
+      this.viewEventMode = true;
+      //console.log('View event ',this.currentEvent);
+      this.getDialogues(this.currentEvent.id);
+    }
+  };
+
+  // edit one event
+  this.editEvent = function(){
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+    } else {
+      this.editEventMode = true;
+      this.eventFormData.title = this.currentEvent.title;
+      this.eventFormData.convener = this.currentEvent.convener;
+      this.eventFormData.description = this.currentEvent.description;
+      this.eventFormData.location = this.currentEvent.location;
+      this.eventFormData.start_datetime = this.currentEvent.start_datetime;
+      this.eventFormData.end_datetime = this.currentEvent.end_datetime;
+    }
+  };
+
+  // update event in DB
+  this.updateEvent = function(){
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      console.log('Update Event: ', this.eventFormData);
+      $http({
+        method: 'PUT',
+        url : appURL+'events/'+this.currentEvent.id,
+        data: this.eventFormData
+      }).then(function(result){
+      console.log('Event updated from server: ', result.data);
+        this.currentEvent = result.data;
+      }.bind(this));
+    }
+  };
+
+  // Delete event and its dialogues
+
+
+  // Get all dialogue for one event
+  this.getDialogues = function(id){
+    $http.get(appURL+'events/'+id).then(response => {
       //console.log('View event and dialogues: ', response.data.dialogues);
       this.dialogues = response.data.dialogues;
       for (var i=0; i<this.dialogues.length; i++){
@@ -345,16 +364,31 @@ app.controller('mainController', ['$http', function($http){
           }
         }
       }
-      //console.log('Modified dialogues array: ', this.dialogues);
     });
   };
 
-
-
-
-
+  // Post (create) new dialogue
+  this.newDialogue = function(){
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+    } else {
+      this.dialogueForm.event_id = this.currentEvent.id;
+      this.dialogueForm.teacher_id = this.activeTeacher.id;
+      console.log('New Dialogue: ',this.dialogueForm);
+      $http({
+        method: 'POST',
+        url : appURL+'dialogues',
+        data: this.dialogueForm
+      }).then(function(result){
+        console.log('Dialogue Data from server: ', result.data);
+        this.dialogueForm = {};
+        this.getDialogues(this.currentEvent.id);
+      }.bind(this));
+    }
+  };
 
 
   // for local testing
-  this.validateEmail();
+  //this.validateEmail();
 }]);

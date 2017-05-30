@@ -130,8 +130,13 @@ main {
   font-style: italic;
   font-weight: bold;
 }
-
-
+.oneDialogue {
+  width: 90%;
+  background: #ffeb99;
+}
+.longInput {
+  width: 80%;
+}
 .form-div {
   margin-left: 1em;
   /*background: #EFAE28;*/

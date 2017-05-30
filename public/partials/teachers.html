@@ -1,7 +1,5 @@
 <div class="container teacherDir">
-  <!-- <br/><br/>
-  <h1>Teachers Directory</h1>
-  <br/><br/> -->
+
   <div class="row">
 
     <!-- Left side div show all Teachers-->
@@ -18,8 +16,8 @@
         <p><b>{{teacher.name}}</b> - <a href="mailto:{{teacher.email}}">{{teacher.email}}</a>
 
         <!-- only admin person can delete a teacher -->
-        <button ng-click="ctrl.deleteTeacher($index)" ng-show="ctrl.admin">Delete</button>
-        <button ng-click="ctrl.editTeacher($index)">Edit</button>
+        <button ng-click="ctrl.deleteTeacher($index)" ng-show="ctrl.admin"> Delete </button>
+        <button ng-click="ctrl.editTeacher($index)"> Edit </button>
         </p>
       </div>
     </div>
@@ -27,7 +25,8 @@
     <!-- Right side div create/edit teacher form -->
     <div class="col-sm-4 form-div">
       <br/>
-      <h3>New Teacher</h3>
+      <h3 ng-hide="ctrl.editTeacherMode">New Teacher</h3>
+      <h3 ng-show="ctrl.editTeacherMode">Edit Teacher</h3>
       <br/>
       <form class="form-horizontal" >
 
@@ -39,8 +38,8 @@
           <label for="email">Email: </label>
           <input name="email" required="required" ng-model="ctrl.teacherFormData.email" type="text" value="ctrl.teacherFormData.email">
         </div>
-        <button ng-click="ctrl.createTeacher()" ng-hide="ctrl.editTeacherMode">Add</button>
-        <button ng-click="ctrl.updateTeacher(ctrl.teacherInd)" ng-show="ctrl.editTeacherMode">Update</button>
+        <button ng-click="ctrl.createTeacher()" ng-hide="ctrl.editTeacherMode"> Create </button>
+        <button ng-click="ctrl.updateTeacher(ctrl.teacherInd)" ng-show="ctrl.editTeacherMode"> Update </button>
         <!-- <button ng-click="ctrl.cancelEditTeacher()" ng-show="ctrl.editTeacherMode">Cancel</button> -->
       </form>
     </div>

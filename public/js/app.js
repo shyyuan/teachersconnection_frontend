@@ -191,6 +191,8 @@ app.controller('mainController', ['$http', function($http){
       var tempId = this.allTeachers[ind].id;
       $http.delete(appURL+'teachers/'+tempId).then(response => {
         this.allTeachers.splice(ind, 1);
+        this.editTeacherMode = false;
+        this.teacherFormData = {};
         console.log('Delete teacher: ', response);
       });
     }

@@ -146,10 +146,14 @@ main {
   /*width: 300px;*/
 }
 
-
-
-
-
+/*
+footer {
+  background: #041C5C;
+}
+*/
+button {
+  margin-left: 5px;
+}
 
 @media (min-width: 660px) {
   .top-panel {

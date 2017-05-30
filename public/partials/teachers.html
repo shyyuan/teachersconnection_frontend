@@ -16,8 +16,8 @@
         <p><b>{{teacher.name}}</b> - <a href="mailto:{{teacher.email}}">{{teacher.email}}</a>
 
         <!-- only admin person can delete a teacher -->
-        <button ng-click="ctrl.deleteTeacher($index)" ng-show="ctrl.admin"> Delete </button>
-        <button ng-click="ctrl.editTeacher($index)"> Edit </button>
+        <button ng-click="ctrl.deleteTeacher($index)" ng-show="ctrl.admin" class="btn btn-primary btn-xs"> Delete </button>
+        <button ng-click="ctrl.editTeacher($index)" class="btn btn-primary btn-xs"> Edit </button>
         </p>
       </div>
     </div>
@@ -38,8 +38,8 @@
           <label for="email">Email: </label>
           <input name="email" required="required" ng-model="ctrl.teacherFormData.email" type="text" value="ctrl.teacherFormData.email">
         </div>
-        <button ng-click="ctrl.createTeacher()" ng-hide="ctrl.editTeacherMode"> Create </button>
-        <button ng-click="ctrl.updateTeacher(ctrl.teacherInd)" ng-show="ctrl.editTeacherMode"> Update </button>
+        <button ng-click="ctrl.createTeacher()" ng-hide="ctrl.editTeacherMode" class="btn btn-primary"> Create </button>
+        <button ng-click="ctrl.updateTeacher(ctrl.teacherInd)" ng-show="ctrl.editTeacherMode" class="btn btn-primary"> Update </button>
         <!-- <button ng-click="ctrl.cancelEditTeacher()" ng-show="ctrl.editTeacherMode">Cancel</button> -->
       </form>
     </div>

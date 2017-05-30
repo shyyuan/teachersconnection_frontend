@@ -10,7 +10,7 @@
       <!-- Repeating all events div -->
       <div class="oneEvent" ng-repeat="event in ctrl.allEvents" ng-hide="ctrl.viewEventMode">
         <h4 ng-click="ctrl.viewEventDetail($index)">{{event.start_datetime | date:'yyyy-MM-dd hh:mma'}} -  {{event.title}}</h4>
-        <p>Convener: {{event.convener}}</p>
+        <p>POC: {{event.convener}}</p>
       </div>
 
       <!-- view one event detail -->
@@ -18,22 +18,23 @@
         <div class="oneEvent">
           <h4>{{ctrl.currentEvent.title}}</h4>
           <p>{{ctrl.currentEvent.description}}</p>
-          <p>Location: {{ctrl.currentEvent.location}}</p>
-          <p>Start: {{ctrl.currentEvent.start_datetime | date:'yyyy-MM-dd hh:mma'}}</p>
-          <p>End: {{ctrl.currentEvent.end_datetime | date:'yyyy-MM-dd hh:mma'}}</p>
+          <p><b>POC:</b> {{ctrl.currentEvent.convener}}
+           <b>Location:</b> {{ctrl.currentEvent.location}}</p>
+          <p><b>Start:</b> {{ctrl.currentEvent.start_datetime | date:'yyyy-MM-dd hh:mma'}}</p>
+          <p><b>End:</b> {{ctrl.currentEvent.end_datetime | date:'yyyy-MM-dd hh:mma'}}</p>
 
-          <button ng-click="ctrl.editEvent()" >Edit</button>
-          <button ng-click="ctrl.deleteEvent()">Delete</button> <span style="color:red">Will delete all dialogues too</span>
+          <button ng-click="ctrl.editEvent()" class="btn btn-primary btn-sm">Edit</button>
+          <button ng-click="ctrl.deleteEvent()" class="btn btn-primary btn-sm" ng-show="ctrl.admin">Delete</button> <span style="color:red" ng-show="ctrl.admin">Will delete all dialogues too</span>
           <br/><br/>
         </div>
         <br/>
         <div ng-repeat="dia in ctrl.dialogues" class="oneDialogue">
-          <p><b>{{dia.teacherName}}: </b> {{dia.content}}</p>
+          <p><b>{{dia.teacherName}}:</b> {{dia.content}}</p>
         </div>
         <br/>
         <div class="">
           <input type="text" class="longInput" placeholder="Comments" ng-model="ctrl.dialogueForm.content">
-          <button ng-click="ctrl.newDialogue()" >Post</button>
+          <button ng-click="ctrl.newDialogue()" class="btn btn-primary btn-xs">Post</button>
         </div>
 
       </div>
@@ -52,7 +53,7 @@
           <input name="title" required="required" ng-model="ctrl.eventFormData.title" type="text" value="ctrl.eventFormData.title">
         </div>
         <div  class="form-group">
-          <label for="convener">Convener: </label><br/>
+          <label for="convener">Point of Contact: </label><br/>
           <input name="convener" required="required" ng-model="ctrl.eventFormData.convener" type="text" value="ctrl.eventFormData.convener">
         </div>
         <div  class="form-group">
@@ -73,8 +74,8 @@
         </div>
 
         <div>
-        <button ng-click="ctrl.createEvent()"  ng-hide="ctrl.editEventMode">Create</button>
-        <button ng-click="ctrl.updateEvent()" ng-show="ctrl.editEventMode">Update</button>
+        <button ng-click="ctrl.createEvent()"  ng-hide="ctrl.editEventMode" class="btn btn-primary">Create</button>
+        <button ng-click="ctrl.updateEvent()" ng-show="ctrl.editEventMode" class="btn btn-primary">Update</button>
         <!-- <button ng-click="ctrl.cancelEditTeacher()" ng-show="ctrl.editEventMode">Cancel</button> -->
         </div>
       </form>

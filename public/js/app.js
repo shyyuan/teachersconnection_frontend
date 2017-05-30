@@ -245,6 +245,7 @@ app.controller('mainController', ['$http', function($http){
       this.tab = tab;
       this.viewEventMode = false;
       this.editTeacherMode = false;
+      this.editEventMode = false;
       this.teacherFormData = {};
       this.eventFormData = {};
       if (tab === 1){

@@ -276,6 +276,21 @@ app.controller('mainController', ['$http', function($http){
     this.loggedIn = false;
     this.showMessage = false;
     this.loginEmail = ''
+    this.activeTeacher = {};
+    this.allTeachers = [];
+    this.allEvents = [];
+    this.editTeacherMode = false;
+    this.teacherFormData = {};
+    this.teacherInd = -1;
+    this.teacherSortByName = false;
+    this.teacherSortByEmail = false;
+    this.editEventMode = false;
+    this.viewEventMode = false;
+    this.eventFormData = {};
+    this.eventInd = -1;
+    this.currentEvent = {};
+    this.dialogues = [];
+    this.dialogueForm = {};
   }
 
   // ============
@@ -352,7 +367,22 @@ app.controller('mainController', ['$http', function($http){
   };
 
   // Delete event and its dialogues
-
+  this.deleteEvent = function(){
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+    } else {
+      $http.delete(appURL+'events/'+this.currentEvent.id).then(response => {
+        console.log('Delete Event: ', response);
+        // go to events
+        this.currentEvent = {};
+        this.editEventMode = false;
+        this.viewEventMode = false;
+        this.eventFormData = {};
+        this.getAllEvents();
+      });
+    }
+  };
 
   // Get all dialogue for one event
   this.getDialogues = function(id){

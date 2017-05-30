@@ -1,16 +1,17 @@
 console.log("Teacher Connection app.js works");
 
 const app = angular.module('teachersConnection', []);
-//const appURL = 'http://localhost:3000/';
-const appURL = 'https://teachersconnection-api.herokuapp.com/';
+const appURL = 'http://localhost:3000/';
+//const appURL = 'https://teachersconnection-api.herokuapp.com/';
 const loggedIn = false;
-const showInvalidLogin = false;
+//const showMessage = false;
 const loginEmail = ''
 const admin = false;
+const timeOut = 1;
 
 // ====== main controller ============= //
 app.controller('mainController', ['$http', function($http){
-  //this.message = "Controller works";
+  this.invalidMessage = "";
   //this.loginEmail = 'shyyuan@yahoo.com'; // for local testing
   //this.tab = 1;
   //this.editTeacherMode = false;
@@ -36,14 +37,17 @@ app.controller('mainController', ['$http', function($http){
           this.loggedIn = true;
           this.showInvalidLogin = false;
           this.activeTeacher = response.data[i];
+          this.activeTeacher.lastActiveTime = Date.now();
           //console.log('Valid email: ', this.activeTeacher);
           break;
         } else {
           this.loggedIn = false;
-          this.showInvalidLogin = true;
+          this.showMessage = true;
+          this.invalidMessage = "Invalid email address";
         }
       }
       if (this.loggedIn){
+        this.showMessage = false;
         if (this.activeTeacher.id === 1) {
           this.admin = true;
         } else {
@@ -191,11 +195,29 @@ app.controller('mainController', ['$http', function($http){
   };
 
   // ===========
+  // checkTimeOut
+  // ===========
+  this.checkTimeOut = function(tab){
+    var diff = (Date.now() - this.activeTeacher.lastActiveTime)/60000;
+    console.log('Time diff: ', diff);
+    if (diff > timeOut) {
+      this.logout();
+      this.showMessage = true;
+      this.invalidMessage = "Session Timeout";
+
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      this.tab = tab;
+    }
+  };
+
+
+  // ===========
   // Logout
   // ===========
   this.logout = function(){
     this.loggedIn = false;
-    this.showInvalidLogin = false;
+    this.showMessage = false;
     this.loginEmail = ''
   }
 

@@ -2,8 +2,10 @@
   <br/><br/>
   email: <input type="text" ng-model="ctrl.loginEmail" placeholder="email"> <button ng-click="ctrl.validateEmail()">Login</button>
 
-  <div ng-show="ctrl.showInvalidLogin" class="">
-    Invalid email address.
+  <!-- <div ng-show="ctrl.showInvalidLogin" class=""> -->
+  <div ng-show="ctrl.showMessage" class="">
+    <!-- Invalid email address. -->
+    {{ctrl.invalidMessage}}
   </div>
   <br/><br/>
   <img src="../images/Li-Ming.png" alt="">

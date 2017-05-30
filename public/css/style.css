@@ -21,7 +21,7 @@ body {
 
 /* top-panel contains headers and nav */
 .top-panel {
-  height: 8em;
+  height: 8.5em;
   background: #041C5C;
   border-bottom: 2px solid red;
 }

@@ -117,73 +117,136 @@ app.controller('mainController', ['$http', function($http){
   // ============
   // create new teacher
   this.createTeacher = function(){
-    console.log("inside create new teacher: ", this.teacherFormData);
-    $http({
-      method: 'POST',
-      url : appURL+'teachers',
-      data: this.teacherFormData
-    }).then(function(result){
-      console.log('Data from server: ', result.data);
-      this.allTeachers.push(result.data);
-      this.sortAllTeachers();
-      this.teacherFormData = {};
-    }.bind(this));
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+      //this.showMessage = true;
+      //this.invalidMessage = "Session Timeout";
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      //this.tab = 2;
+      console.log("inside create new teacher: ", this.teacherFormData);
+      $http({
+        method: 'POST',
+        url : appURL+'teachers',
+        data: this.teacherFormData
+      }).then(function(result){
+        console.log('Data from server: ', result.data);
+        this.allTeachers.push(result.data);
+        this.sortAllTeachers();
+        this.teacherFormData = {};
+      }.bind(this));
+    }
   };
 
   // edit Teacher
   this.editTeacher = function(ind){
-    this.editTeacherMode = true;
-    this.teacherFormData.name = this.allTeachers[ind].name;
-    this.teacherFormData.email = this.allTeachers[ind].email;
-    this.teacherInd = ind;
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+      //this.showMessage = true;
+      //this.invalidMessage = "Session Timeout";
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      //this.tab = 2;
+      this.editTeacherMode = true;
+      this.teacherFormData.name = this.allTeachers[ind].name;
+      this.teacherFormData.email = this.allTeachers[ind].email;
+      this.teacherInd = ind;
+    }
   };
 
   // Update teacher info in DB
   this.updateTeacher = function(ind){
-    var tempId = this.allTeachers[ind].id;
-    console.log("inside Update teacher: ", this.teacherFormData);
-    $http({
-      method: 'PUT',
-      url : appURL+'teachers/'+tempId,
-      data: this.teacherFormData
-    }).then(function(result){
-      console.log('Teacher updated from server: ', result.data);
-      this.allTeachers.splice(ind, 1, result.data);
-      this.sortAllTeachers();
-      this.cancelEditTeacher();
-    }.bind(this));
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+      //this.showMessage = true;
+      //this.invalidMessage = "Session Timeout";
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      //this.tab = 2;
+      var tempId = this.allTeachers[ind].id;
+      console.log("inside Update teacher: ", this.teacherFormData);
+      $http({
+        method: 'PUT',
+        url : appURL+'teachers/'+tempId,
+        data: this.teacherFormData
+      }).then(function(result){
+        console.log('Teacher updated from server: ', result.data);
+        this.allTeachers.splice(ind, 1, result.data);
+        this.sortAllTeachers();
+        this.cancelEditTeacher();
+      }.bind(this));
+    }
   }
 
   // cancel edit teacher mode
   this.cancelEditTeacher = function(){
-    this.editTeacherMode = false;
-    this.teacherInd = -1;
-    this.teacherFormData = {};
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+      //this.showMessage = true;
+      //this.invalidMessage = "Session Timeout";
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      //this.tab = 2;
+      this.editTeacherMode = false;
+      this.teacherInd = -1;
+      this.teacherFormData = {};
+    }
   };
   // Delete teacher
   this.deleteTeacher = function(ind){
-    var tempId = this.allTeachers[ind].id;
-    $http.delete(appURL+'teachers/'+tempId).then(response => {
-      this.allTeachers.splice(ind, 1);
-      console.log('Delete teacher: ', response);
-    });
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+      //this.showMessage = true;
+      //this.invalidMessage = "Session Timeout";
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      //this.tab = 2;
+      var tempId = this.allTeachers[ind].id;
+      $http.delete(appURL+'teachers/'+tempId).then(response => {
+        this.allTeachers.splice(ind, 1);
+        console.log('Delete teacher: ', response);
+      });
+    }
   };
 
   // ===========
   // Teacher Sort Function
   // ===========
   this.sortTeacherByName = function(){
-    this.teacherSortByName = true;
-    this.teacherSortByEmail = false;
-    this.allTeachers =  this.allTeachers.sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
-    return this.allTeachers;
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+      //this.showMessage = true;
+      //this.invalidMessage = "Session Timeout";
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      //this.tab = 2;
+      this.teacherSortByName = true;
+      this.teacherSortByEmail = false;
+      this.allTeachers =  this.allTeachers.sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
+      return this.allTeachers;
+    }
   };
 
   this.sortTeacherByEamil = function(){
-    this.teacherSortByName = false;
-    this.teacherSortByEmail = true;
-    this.allTeachers = this.allTeachers.sort((a, b) => a.email.toUpperCase().localeCompare(b.email.toUpperCase()));
-    return this.allTeachers;
+    if (this.timeOut()){
+      this.logout();
+      this.timeOutMessage();
+      //this.showMessage = true;
+      //this.invalidMessage = "Session Timeout";
+    } else {
+      this.activeTeacher.lastActiveTime = Date.now();
+      //this.tab = 2;
+      this.teacherSortByName = false;
+      this.teacherSortByEmail = true;
+      this.allTeachers = this.allTeachers.sort((a, b) => a.email.toUpperCase().localeCompare(b.email.toUpperCase()));
+      return this.allTeachers;
+    }
   };
 
   this.sortAllTeachers = function(){
@@ -198,19 +261,31 @@ app.controller('mainController', ['$http', function($http){
   // checkTimeOut
   // ===========
   this.checkTimeOut = function(tab){
-    var diff = (Date.now() - this.activeTeacher.lastActiveTime)/60000;
-    console.log('Time diff: ', diff);
-    if (diff > timeOut) {
+    if (this.timeOut()) {
       this.logout();
-      this.showMessage = true;
-      this.invalidMessage = "Session Timeout";
-
+      this.timeOutMessage();
+      // this.showMessage = true;
+      // this.invalidMessage = "Session Timeout";
     } else {
       this.activeTeacher.lastActiveTime = Date.now();
       this.tab = tab;
     }
   };
 
+  this.timeOut = function(){
+    var diff = (Date.now() - this.activeTeacher.lastActiveTime)/60000;
+    console.log('Time diff: ', diff);
+    if (diff > timeOut) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  this.timeOutMessage = function(){
+    this.showMessage = true;
+    this.invalidMessage = "Session Timeout";
+  }
 
   // ===========
   // Logout

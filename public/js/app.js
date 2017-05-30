@@ -345,6 +345,8 @@ app.controller('mainController', ['$http', function($http){
       }).then(function(result){
       console.log('Event updated from server: ', result.data);
         this.currentEvent = result.data;
+        this.editEventMode = false;
+        this.eventFormData = {};
       }.bind(this));
     }
   };

@@ -54,7 +54,12 @@
         </div>
         <div  class="form-group">
           <label for="convener">Point of Contact: </label><br/>
-          <input name="convener" required="required" ng-model="ctrl.eventFormData.convener" type="text" value="ctrl.eventFormData.convener">
+          <!-- <input name="convener" required="required" ng-model="ctrl.eventFormData.convener" type="text"  value="ctrl.eventFormData.convener"> -->
+          <select ng-model="ctrl.eventFormData.convener">
+            <option value="">Select One</option>
+            <option ng-repeat="teacher in ctrl.allTeachers" value="{{teacher.name}}">{{teacher.name}}</option>
+          </select>
+
         </div>
         <div  class="form-group">
           <label for="location">Location: </label><br/>

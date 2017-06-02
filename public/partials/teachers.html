@@ -7,13 +7,13 @@
       <br/><br/>
       <h1>Teachers Directory</h1>
       <!-- Sort Function -->
-      <p>Sort By: <span ng-if="ctrl.teacherSortByName"><b>Name</b> <a href="#" ng-click="ctrl.sortTeacherByEamil()">Email</a></span>
-        <span ng-if="ctrl.teacherSortByEmail"><a href="#" ng-click="ctrl.sortTeacherByName()">Name</a> <b>Email</b></span>
+      <p>Sort By: <span ng-if="ctrl.teacherSortByName"><b>Name</b> <a href="#" class="teacherEmail" ng-click="ctrl.sortTeacherByEamil()">Email</a></span>
+        <span ng-if="ctrl.teacherSortByEmail"><a href="#" class="teacherEmail" ng-click="ctrl.sortTeacherByName()">Name</a> <b>Email</b></span>
       </p>
 
       <!--  Repeat show all Teachers div -->
       <div ng-repeat="teacher in ctrl.allTeachers" class="oneTeacher">
-        <p><b>{{teacher.name}}</b> - <a href="mailto:{{teacher.email}}">{{teacher.email}}</a>
+        <p><b>{{teacher.name}}</b> - <a class="teacherEmail" href="mailto:{{teacher.email}}">{{teacher.email}}</a>
 
         <!-- only admin person can delete a teacher -->
         <button ng-click="ctrl.deleteTeacher($index)" ng-show="ctrl.admin" class="btn btn-primary btn-xs"> Delete </button>

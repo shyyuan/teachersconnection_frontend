@@ -23,8 +23,8 @@
           <p><b>Start:</b> {{ctrl.currentEvent.start_datetime | date:'yyyy-MM-dd hh:mma'}}</p>
           <p><b>End:</b> {{ctrl.currentEvent.end_datetime | date:'yyyy-MM-dd hh:mma'}}</p>
 
-          <button ng-click="ctrl.editEvent()" class="btn btn-primary btn-sm" ng-show="ctrl.admin">Edit</button>
-          <button ng-click="ctrl.deleteEvent()" class="btn btn-primary btn-sm" ng-show="ctrl.admin">Delete</button> <span style="color:red" ng-show="ctrl.admin">Will delete all dialogues too</span>
+          <button ng-click="ctrl.editEvent()" class="btn btn-primary btn-sm" ng-show="ctrl.admin || ctrl.currentEvent.convener == ctrl.activeTeacher.name"">Edit</button>
+          <button ng-click="ctrl.deleteEvent()" class="btn btn-primary btn-sm" ng-show="ctrl.admin || ctrl.currentEvent.convener == ctrl.activeTeacher.name">Delete</button> <span style="color:red" ng-show="ctrl.admin || ctrl.currentEvent.convener == ctrl.activeTeacher.name">Will delete all dialogues too</span>
           <br/><br/>
         </div>
         <br/>

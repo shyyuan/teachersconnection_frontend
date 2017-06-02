@@ -111,6 +111,12 @@ main {
 .teacherDir h1 {
   text-align: center;
 }
+.teacherEmail {
+  color:blue;
+}
+.teacherEmail:link {
+  color:blue;
+}
 .events h1 {
   text-align: center;
 }

@@ -160,8 +160,16 @@ footer {
 button {
   margin-left: 5px;
 }
+/*
+@media (max-width: 465px){
+  header img {
+    clear: left;
+    width: 100vw;
+    height: auto;
+  }
+}*/
 
-@media (min-width: 660px) {
+@media (max-width: 660px) {
   .top-panel {
     display:block;
   }
@@ -169,20 +177,18 @@ button {
   header img {
     clear: left;
     width: auto;
-    /*display: block;*/
   }
-
-  header h1 {
-    /*font-size: 1em;
-    padding-left: 1em;*/
-  }
-
   .major-container {
-    flex-direction: row;
-    flex: 1;
+    display:block;
   }
+
+  .login img {
+    width: auto;
+    height: auto;
+  }
+
   aside {
-    flex: 0 0 4em;
+    flex: 0 0 0;
   }
 
 }
